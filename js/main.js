@@ -3,35 +3,33 @@ var SERVER_URL = 'https://cahoots-email.herokuapp.com/'
 var sendDraftPost = function(user_email, draft_id) {
     url = SERVER_URL + 'draft/create'
     data = {
-        user_email: user_email,
-        draft_id: draft_id,
-        xhrFields: {
-            withCredentials: true
-        }
+        // user_email: user_email,
+        draft_id: draft_id
     }
 
     $.ajax(url, {
-            type: "POST",
-            // contentType: "application/json; charset=utf-8",
-            success: function(data, status, xhr) {
-                console.log("POST: " + url);
-                console.log(data);
+        type: "POST",
+        data: JSON.stringify(data),
+        // contentType: "application/json; charset=utf-8",
+        success: function(data, status, xhr) {
+            console.log("POST: " + url);
+            console.log(data);
 
-                console.log("Status: " + status);
+            console.log("Status: " + status);
 
-                console.log("RESPONSE:");
-                console.log(xhr);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log("jqXHR: " + jqXHR);
-                console.log("status: " + textStatus);
-                console.log("error thrown: " + errorThrown);
-            },
-            xhrFields: {
-                withCredentials: true
-            },
-            crossDomain: true
-        });
+            console.log("RESPONSE:");
+            console.log(xhr);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log("jqXHR: " + jqXHR);
+            console.log("status: " + textStatus);
+            console.log("error thrown: " + errorThrown);
+        },
+        xhrFields: {
+            withCredentials: true
+        },
+        crossDomain: true
+    });
 
     // Open cahoots draft in new tab
     window.open(SERVER_URL, '_blank');

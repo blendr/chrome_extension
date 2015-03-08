@@ -1,48 +1,49 @@
-var sendDrafts = function() {
+var sendDrafts = function(button) {
     var gmail = new Gmail();
     user_email = gmail.get.user_email();
-    compose_ids = gmail.get.compose_ids();
-    console.log(user_email);
-    console.log(compose_ids);
+    draft_ids = gmail.get.compose_ids();
+
+    compose_id = $(button).data('composeid');
+    form = $('input[name="composeid"][value="'+ compose_id + '"]').parent();
+    draft_id = $(form).find('input[name="draft"]').val();
 
     url = 'https://cahoots-email.herokuapp.com/draft/create'
     data = {
         user_email: user_email,
-        draft_id: compose_ids[0]
+        draft_id: draft_id
     }
 
     $.post(url, data, function() {
+        console.log("POST: " + url)
         console.log(data);
     });
 
     // Open cahoots draft in new tab
     window.open('https://cahoots-email.herokuapp.com/', '_blank');
-    
 }
 
 // Add cahoots link to elt. Elt should be the button toolbar at the bottom of a
 // draft popup
 var addLink = function(elt) {
-    // console.log("number of links is " + $(elt).children('.cahoots-button').length);
     if (elt !== null && $(elt).children('.cahoots-button').length == 0) {
-        // console.log("appending");
+        form = $(elt).closest('.iN').prev().prev();
+
+        compose_id = $(form).find('input[name="composeid"]').val();
         $(elt).append(
-            '<input type="button" class="cahoots-button" value="cahoots">'
+            '<input type="button" class="cahoots-button" value="cahoots" data-composeid=' + compose_id + '>'
         );
         $(elt).on('click', '.cahoots-button', function() {
-            sendDrafts();
+            sendDrafts(this);
         });
     }
 };
 
 // Find all draft popup button toolbars and call addLink to all of them
 var addLinkToElts = function() {
-    // console.log('loopin\'');
     elements = $(".a8X.gU").children([style="-webkit-user-select: none;"]);
 
     if(elements.is(':visible')) {
         elements.each(function(i, elt) {
-            console.log("calling addLink for elt " + i);
             addLink(elt);
         })
     }
@@ -65,8 +66,6 @@ var main = function(){
     // NOTE: Always use the latest version of gmail.js from
     // https://github.com/KartikTalwar/gmail.js
     gmail = new Gmail();
-    console.log('Hello from cahoots,', gmail.get.user_email());
-
 
     $(document).ready(function() {
         // If compose popups exist on load, append cahoots link

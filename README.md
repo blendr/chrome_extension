@@ -1,2 +1,4 @@
-# Chrome extension for Cahoots email!
+# Chrome extension for cahoots-email
+
+
 

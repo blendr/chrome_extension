@@ -16,16 +16,25 @@
             ],
             "css": ["css/style.css"],
             "js": [
-                "js/lib/jquery.min.js", 
-                "js/main.js"
+                "js/content.js"
+                
             ],
             "run_at": "document_end"
         }
     ],
-
-    "permissions": [
-        "tabs", 
-        "activeTab",
-        "https://mail.google.com/*"
+    "web_accessible_resources": [
+        "js/lib/jquery.min.js",
+        "js/lib/gmail.js",
+        "js/main.js"
     ]
+    // "permissions": [
+    //     "tabs", 
+    //     "activeTab",
+    //     "https://mail.google.com/*"
+    // ]
+
+    // "browser_action": {
+    //     // "default_icon": "",
+    //     "default_popup": "popup.html"
+    // }
  }

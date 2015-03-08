@@ -4,7 +4,10 @@ var sendDraftPost = function(user_email, draft_id) {
     url = SERVER_URL + 'draft/create'
     data = {
         user_email: user_email,
-        draft_id: draft_id
+        draft_id: draft_id,
+        xhrFields: {
+            withCredentials: true
+        }
     }
 
     $.post(url, data, function(response) {

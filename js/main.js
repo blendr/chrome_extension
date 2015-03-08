@@ -7,9 +7,11 @@ var sendDraftPost = function(user_email, draft_id) {
         draft_id: draft_id
     }
 
-    $.post(url, data, function() {
-        console.log("POST: " + url)
+    $.post(url, data, function(response) {
+        console.log("POST: " + url);
         console.log(data);
+        console.log("RESPONSE:");
+        console.log(response);
     });
 
     // Open cahoots draft in new tab

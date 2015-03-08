@@ -1,13 +1,7 @@
-var sendDrafts = function(button) {
-    var gmail = new Gmail();
-    user_email = gmail.get.user_email();
-    draft_ids = gmail.get.compose_ids();
+var SERVER_URL = 'https://cahoots-email.herokuapp.com/'
 
-    compose_id = $(button).data('composeid');
-    form = $('input[name="composeid"][value="'+ compose_id + '"]').parent();
-    draft_id = $(form).find('input[name="draft"]').val();
-
-    url = 'https://cahoots-email.herokuapp.com/draft/create'
+var sendDraftPost = function(user_email, draft_id) {
+    url = SERVER_URL + 'draft/create'
     data = {
         user_email: user_email,
         draft_id: draft_id
@@ -19,7 +13,27 @@ var sendDrafts = function(button) {
     });
 
     // Open cahoots draft in new tab
-    window.open('https://cahoots-email.herokuapp.com/', '_blank');
+    window.open(SERVER_URL, '_blank');
+}
+
+var handleEmptyDraft = function() {
+
+}
+
+var sendDraft = function(button) {
+    var gmail = new Gmail();
+    user_email = gmail.get.user_email();
+    draft_ids = gmail.get.compose_ids();
+
+    compose_id = $(button).data('composeid');
+    form = $('input[name="composeid"][value="'+ compose_id + '"]').parent();
+    draft_id = $(form).find('input[name="draft"]').val();
+
+    if (draft_id === 'undefined') {
+        handleEmptyDraft();
+    } else {
+        sendDraftPost(user_email, draft_id);
+    }
 }
 
 // Add cahoots link to elt. Elt should be the button toolbar at the bottom of a
@@ -33,7 +47,7 @@ var addLink = function(elt) {
             '<input type="button" class="cahoots-button" value="cahoots" data-composeid=' + compose_id + '>'
         );
         $(elt).on('click', '.cahoots-button', function() {
-            sendDrafts(this);
+            sendDraft(this);
         });
     }
 };
@@ -42,7 +56,7 @@ var addLink = function(elt) {
 var addLinkToElts = function() {
     elements = $(".a8X.gU").children([style="-webkit-user-select: none;"]);
 
-    if(elements.is(':visible')) {
+    if (elements.is(':visible')) {
         elements.each(function(i, elt) {
             addLink(elt);
         })
@@ -53,7 +67,7 @@ var gmail;
 
 // Wait until Gmail and JQuery are ready
 function refresh(f) {
-  if( (/in/.test(document.readyState)) ||
+  if ((/in/.test(document.readyState)) ||
         (undefined === Gmail) ||
         (undefined === $)) {
     setTimeout('refresh(' + f + ')', 10);

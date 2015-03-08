@@ -49,7 +49,7 @@ var addLink = function(elt) {
 
         compose_id = $(form).find('input[name="composeid"]').val();
         $(elt).append(
-            '<input type="button" class="cahoots-button" value="cahoots" data-composeid=' + compose_id + '>'
+            '<input type="button" class="cahoots-button" value="Cahoots" data-composeid=' + compose_id + '>'
         );
         $(elt).on('click', '.cahoots-button', function() {
             sendDraft(this);
